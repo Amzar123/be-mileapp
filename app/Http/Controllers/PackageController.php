@@ -20,6 +20,15 @@ class PackageController extends Controller
 
     public function getPackagesById($id) {
         $package = Package::where("_id", $id)->first();
+        if ($package == null) {
+            return response()->json([
+                "code" => 404,
+                "messageId" => "NOT_FOUND",
+                "data" => [
+                    "info" => "Data not found",
+                ]
+            ]);
+        }
         return response()->json([
             "code" => 200,
             "message" => "ok",
@@ -31,17 +40,15 @@ class PackageController extends Controller
         $validator = Validator::make($request->all(), PackageValidator::rules());
         if ($validator->fails()) {
             $errors = $validator->messages();
-            echo $errors;
             return response()->json($errors, 422);
         }
-        
-        $package = new Package;
-        
-        $package->save();
+
+        Package::create($request->all());
+
         return response()->json([
-            "code" => 200,
+            "code" => 201,
             "message" => "ok",
-            "data" => $package
+            "data" => $request->all()
         ], 201);
     }
 
@@ -51,6 +58,15 @@ class PackageController extends Controller
 
     public function deletePackageById($id) {
         $package = Package::find($id);
+        if ($package == null) {
+            return response()->json([
+                "code" => 404,
+                "messageId" => "NOT_FOUND",
+                "data" => [
+                    "info" => "Data not found",
+                ]
+            ]);
+        }
         $package->delete();
         return response()->json([
             "code" => 200,
@@ -59,19 +75,58 @@ class PackageController extends Controller
         ]);
     }
 
-    public function updatePackageById($id) {
+    public function updatePackageById(Request $request, $id) {
         $package = Package::find($id);
-        $package->delete();
+        if ($package == null) {
+            return response()->json([
+                "code" => 404,
+                "messageId" => "NOT_FOUND",
+                "data" => [
+                    "info" => "Data not found",
+                ]
+            ]);
+        }
+
+        $validator = Validator::make($request->all(), PackageValidator::rules());
+        if ($validator->fails()) {
+            $errors = $validator->messages();
+            return response()->json($errors, 422);
+        }
+
+        $notSuccess = Package::where("_id", $id)->update($request->all());
+        if ($notSuccess) {
+            return response()->json([
+                "code" => 500,
+                "messageId" => "INTERNAL_SERVER_ERROR",
+                "data" => [
+                    "info" => "internal server error"
+                ]
+            ]);
+        }
+
+        $updatedData = $package->fresh();
+        
         return response()->json([
             "code" => 200,
             "message" => "ok",
-            "data" => $package
+            "data" => $updatedData
         ]);
     }
 
-    public function updateSomeFieldPackageById($id) {
+    public function updateSomeFieldPackageById(Request $request, $id) {
         $package = Package::find($id);
-        $package->delete();
+        if ($package == null) {
+            return response()->json([
+                "code" => 404,
+                "messageId" => "NOT_FOUND",
+                "data" => [
+                    "info" => "Data not found",
+                ]
+            ]);
+        }
+
+        $package->fill($request->all());
+
         return response()->json([
             "code" => 200,
             "message" => "ok",
