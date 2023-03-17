@@ -4,14 +4,24 @@ namespace Tests\Unit;
 
 use PHPUnit\Framework\TestCase;
 use App\Http\Controllers\PackageController;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Orchestra\Testbench\Dusk\MongoDbMigrationsTrait;
 
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class PackageTest extends TestCase
 {
-    use RefreshDatabase;
+    // use RefreshDatabase;
 
-    
+    // protected function getEnvironmentSetUp($app)
+    // {
+    //     Config::set('database.default', 'custom_connection');
+    //     Config::set('database.connections.custom_connection', [
+    //         'driver' => 'sqlite',
+    //         'database' => ':memory:',
+    //     ]);
+    // }
+
+    use MongoDbMigrationsTrait;
 
     /**
      * A basic test example.
