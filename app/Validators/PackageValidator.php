@@ -15,8 +15,8 @@ class PackageValidator
     public static function rules()
     {
         return [
-            'transaction_id' => 'required|string',
-            'customer_name' => 'required|string',
+            'transaction_id' => 'required|string|uuid',
+            'customer_name' => 'required|string|max:200',
             'customer_code' => 'required|string',
             'transaction_amount' => 'required',
             'transaction_discount' => 'nullable|string',
@@ -25,7 +25,7 @@ class PackageValidator
             'transaction_state' => 'required|string',
             'transaction_code' => 'required|string',
             'transaction_order' => 'required|numeric',
-            'location_id' => 'required|string',
+            'location_id' => 'required|string|max:24',
             'organization_id' => 'required|numeric',
             'created_at' => 'required|string',
             'updated_at' => 'required|string',

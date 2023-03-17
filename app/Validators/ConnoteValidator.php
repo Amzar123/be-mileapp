@@ -8,7 +8,7 @@ class ConnoteValidator
     public static function rules()
     {
         return [
-            'connote_id' => 'required|string',
+            'connote_id' => 'required|string|max:32',
             'connote_number' => 'required|numeric',
             'connote_service' => 'required|string',
             'connote_service_price' => 'required|numeric',
