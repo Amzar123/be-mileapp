@@ -150,13 +150,10 @@ class PackageTest extends TestCase
         $this->headers = [
             'XSRF-TOKEN' => csrf_token()
         ];
-
-        // Perform any setup tasks here
     }
 
     public function tearDown(): void
     {
-        // Perform any teardown tasks here
 
         parent::tearDown();
     }
