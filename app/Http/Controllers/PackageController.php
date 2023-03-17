@@ -9,6 +9,12 @@ use App\Validators\PackageValidator;
 
 class PackageController extends Controller
 {
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function getPackages() {
         $packages = Package::all();
         return response()->json([
@@ -18,6 +24,13 @@ class PackageController extends Controller
         ], 200);
     }
 
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  string  $id
+     * @return \Illuminate\Http\Response
+     */
     public function getPackagesById($id) {
         $package = Package::where("_id", $id)->first();
         if ($package == null) {
@@ -36,6 +49,13 @@ class PackageController extends Controller
         ], 200);
     }
 
+
+     /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function createPackage(Request $request) {
         $validator = Validator::make($request->all(), PackageValidator::rules());
         if ($validator->fails()) {
@@ -52,6 +72,11 @@ class PackageController extends Controller
         ], 201);
     }
 
+     /**
+     * Store a newly created resource in storage.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function generateCSRF() {
         return response()->json([
             "code" => 200,
@@ -60,6 +85,12 @@ class PackageController extends Controller
         ], 200);
     }
 
+     /**
+     * Store a newly created resource in storage.
+     *
+     * @param  string  $id
+     * @return \Illuminate\Http\Response
+     */
     public function deletePackageById($id) {
         $package = Package::find($id);
         if ($package == null) {
@@ -88,6 +119,13 @@ class PackageController extends Controller
         ], 200);
     }
 
+     /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  string  $id
+     * @return \Illuminate\Http\Response
+     */
     public function updatePackageById(Request $request, $id) {
         $package = Package::find($id);
         if ($package == null) {
@@ -126,6 +164,14 @@ class PackageController extends Controller
         ], 200);
     }
 
+
+     /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  string  $id
+     * @return \Illuminate\Http\Response
+     */
     public function updateSomeFieldPackageById(Request $request, $id) {
         $package = Package::find($id);
         if ($package == null) {
