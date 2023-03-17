@@ -27,13 +27,13 @@ class PackageController extends Controller
                 "data" => [
                     "info" => "Data not found",
                 ]
-            ]);
+            ], 404);
         }
         return response()->json([
             "code" => 200,
             "message" => "ok",
             "data" => $package
-        ]);
+        ], 200);
     }
 
     public function createPackage(Request $request) {
@@ -57,7 +57,7 @@ class PackageController extends Controller
             "code" => 200,
             "message" => "ok",
             "data" => csrf_token()
-        ], 201);
+        ], 200);
     }
 
     public function deletePackageById($id) {
@@ -69,14 +69,23 @@ class PackageController extends Controller
                 "data" => [
                     "info" => "Data not found",
                 ]
-            ]);
+            ], 404);
         }
-        $package->delete();
+        $isFail = $package->delete();
+        if ($isFail) {
+            return response()->json([
+                "code" => 500,
+                "message" => "ok",
+                "data" => [
+                    "info" => "internal server error"
+                ]
+            ], 500);
+        }
         return response()->json([
             "code" => 200,
             "message" => "ok",
             "data" => $package
-        ]);
+        ], 200);
     }
 
     public function updatePackageById(Request $request, $id) {
@@ -88,7 +97,7 @@ class PackageController extends Controller
                 "data" => [
                     "info" => "Data not found",
                 ]
-            ]);
+            ], 404);
         }
 
         $validator = Validator::make($request->all(), PackageValidator::rules());
@@ -105,7 +114,7 @@ class PackageController extends Controller
                 "data" => [
                     "info" => "internal server error"
                 ]
-            ]);
+            ], 500);
         }
 
         $updatedData = $package->fresh();
@@ -114,7 +123,7 @@ class PackageController extends Controller
             "code" => 200,
             "message" => "ok",
             "data" => $updatedData
-        ]);
+        ], 200);
     }
 
     public function updateSomeFieldPackageById(Request $request, $id) {
@@ -126,7 +135,7 @@ class PackageController extends Controller
                 "data" => [
                     "info" => "Data not found",
                 ]
-            ]);
+            ], 404);
         }
 
         $package->fill($request->all());
@@ -135,6 +144,6 @@ class PackageController extends Controller
             "code" => 200,
             "message" => "ok",
             "data" => $package
-        ]);
+        ], 200);
     }
 }

@@ -17,7 +17,7 @@ use App\Http\Controllers\PackageController;
 Route::get('/', function(){
     return 200;
 });
-Route::get('/package', [PackageController::class, 'getPackages']);
+Route::get('/package', [PackageController::class, 'getPackages'])->name('package.get')->name('package.list');
 Route::get('/package/{id}', [PackageController::class, 'getPackagesById']);
 Route::post('/package', [PackageController::class, 'createPackage'])->withoutMiddleware(['csrf']);
 Route::get('/generate-csrf', [PackageController::class, 'generateCSRF']);
