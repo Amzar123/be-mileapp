@@ -177,7 +177,7 @@ class PackageTest extends TestCase
      */
     public function test_get_packages_by_id()
     {
-        $response = $this->get('/package/64143edfc50f406584011a12');
+        $response = $this->get('/package/6414589143f25ba88902dd12');
         $responseData = $response->getData();
 
         $response->assertStatus(200);
@@ -216,11 +216,7 @@ class PackageTest extends TestCase
      */
     public function test_delete_package_by_id()
     {
-
-        $headers = [
-            'XSRF-TOKEN' => csrf_token()
-        ];
-        $response = $this->withHeaders($headers)->delete('/package/64134adb5346806b1803bb02');
+        $response = $this->withHeaders($this->headers)->delete('/package/641465d8868dc063be0cc103');
 
         $response->assertStatus(200);
     }
@@ -232,10 +228,7 @@ class PackageTest extends TestCase
      */
     public function test_delete_package_by_id_not_found()
     {
-        $headers = [
-            'XSRF-TOKEN' => csrf_token()
-        ];
-        $response = $this->withHeaders($headers)->delete('/package/64134adb5346806b1803bb02');
+        $response = $this->withHeaders($this->headers)->delete('/package/64134adb5346806b1803bb02');
 
         $response->assertStatus(404);
     }

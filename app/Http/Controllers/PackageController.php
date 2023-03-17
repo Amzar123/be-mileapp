@@ -145,7 +145,7 @@ class PackageController extends Controller
         }
 
         $notSuccess = Package::where("_id", $id)->update($request->all());
-        if ($notSuccess) {
+        if (!$notSuccess) {
             return response()->json([
                 "code" => 500,
                 "messageId" => "INTERNAL_SERVER_ERROR",
