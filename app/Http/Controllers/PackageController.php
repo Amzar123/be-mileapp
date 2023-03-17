@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Package;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use App\Validators\PackageValidator;
 
 class PackageController extends Controller
 {
@@ -27,20 +28,15 @@ class PackageController extends Controller
     }
 
     public function createPackage(Request $request) {
-        $rules = [
-            'customer_name' => 'required',
-        ];
-
-        $validator = Validator::make($request->all(), $rules);
+        $validator = Validator::make($request->all(), PackageValidator::rules());
         if ($validator->fails()) {
             $errors = $validator->messages();
-            return response()->json(['error' => $errors->first('customer_name')], 422);
+            echo $errors;
+            return response()->json($errors, 422);
         }
         
         $package = new Package;
-
-        $package->customer_name = $request->customer_name;
-
+        
         $package->save();
         return response()->json([
             "code" => 200,
