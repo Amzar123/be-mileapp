@@ -53,7 +53,11 @@ class PackageController extends Controller
     }
 
     public function generateCSRF() {
-        return csrf_token();
+        return response()->json([
+            "code" => 200,
+            "message" => "ok",
+            "data" => csrf_token()
+        ], 201);
     }
 
     public function deletePackageById($id) {
